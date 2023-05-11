@@ -1,6 +1,6 @@
 <template>
-    <el-menu router default-active="1-4-1" class="el-menu-vertical-demo" :collapse="isCollapse">
-        <el-menu-item index="/">
+    <el-menu router :default-active="active" class="el-menu-vertical-demo" :collapse="isCollapse">
+        <el-menu-item index="/dashboard">
             <i class="el-icon-menu"></i>
             <span slot="title">首页</span>
         </el-menu-item>
@@ -25,8 +25,20 @@
 export default {
     data() {
         return {
-            isCollapse: false
+            isCollapse: false,
+            active: '/'
         };
+    },
+    watch: {
+        $route: {
+            handler(newValue) {
+                // /dashboard
+                document.title = newValue.meta.title;
+
+                this.active = newValue.path
+            },
+            immediate: true
+        }
     }
 }
 </script>

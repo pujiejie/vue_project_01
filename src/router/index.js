@@ -1,6 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
+const VueRouterPush = VueRouter.prototype.push;
+VueRouter.prototype.push = function push(to) {
+  return VueRouterPush.call(this, to).catch(err => { });
+}
+
 const Login = () => import("@/views/Login/index")
 const LayOut = () => import("@/LayOut/index")
 
@@ -15,7 +20,10 @@ const routes = [
       {
         path: 'dashboard',
         component: () => import("@/views/DashBoard/index"),
-        name: 'dashboard'
+        name: 'dashboard',
+        meta: {
+          title: "首页"
+        }
       }
     ]
   },
@@ -25,7 +33,10 @@ const routes = [
     children: [
       {
         path: '',
-        component: () => import("@/views/Lesson/index")
+        component: () => import("@/views/Lesson/index"),
+        meta: {
+          title: "课程管理"
+        }
       }
     ]
   },
